@@ -383,8 +383,8 @@ a:hover { color: var(--accent-2); }
 }
 
 .hero__title {
-  font-family: var(--font-body);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 800;
   font-size: clamp(2.6rem, 7vw, 5.5rem);
   line-height: 1.02;
   letter-spacing: -0.025em;
