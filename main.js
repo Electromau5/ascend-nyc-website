@@ -67,7 +67,7 @@
       density: 0.00007,    // particles per pixel
       maxLink: 130,        // px distance to draw line
       speed: 0.18,         // base velocity
-      color: '108, 99, 255'
+      color: '245, 165, 36'
     };
 
     function resize() {
