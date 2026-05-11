@@ -218,13 +218,14 @@ a:hover { color: var(--accent-2); }
   top: 0; left: 0; right: 0;
   z-index: 100;
   padding: 8px 0;
+  background: #000000;
   transition: background 280ms var(--ease), backdrop-filter 280ms var(--ease),
               border-color 280ms var(--ease), padding 280ms var(--ease);
   border-bottom: 1px solid transparent;
 }
 
 .nav.is-scrolled {
-  background: rgba(10, 10, 15, 0.88);
+  background: #000000;
   backdrop-filter: saturate(140%) blur(18px);
   -webkit-backdrop-filter: saturate(140%) blur(18px);
   border-bottom-color: var(--line);
