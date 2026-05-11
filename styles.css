@@ -217,7 +217,7 @@ a:hover { color: var(--accent-2); }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 8px 0;
+  padding: 4px 0;
   background: #000000;
   transition: background 280ms var(--ease), backdrop-filter 280ms var(--ease),
               border-color 280ms var(--ease), padding 280ms var(--ease);
@@ -229,7 +229,7 @@ a:hover { color: var(--accent-2); }
   backdrop-filter: saturate(140%) blur(18px);
   -webkit-backdrop-filter: saturate(140%) blur(18px);
   border-bottom-color: var(--line);
-  padding: 6px 0;
+  padding: 3px 0;
 }
 
 .nav__inner {
@@ -311,7 +311,7 @@ a:hover { color: var(--accent-2); }
 }
 
 .wordmark__logo {
-  height: 156px;
+  height: 78px;
   width: auto;
   flex-shrink: 0;
   display: block;
