@@ -7,6 +7,302 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* =========================================================
+     Firebase Authentication
+     ========================================================= */
+
+  // Firebase Configuration - REPLACE WITH YOUR FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase (only if scripts loaded)
+  let auth = null;
+  if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+    // Listen for auth state changes
+    auth.onAuthStateChanged(updateUIForAuthState);
+  }
+
+  /* ---------- Auth UI State ---------- */
+  function updateUIForAuthState(user) {
+    const navSignIn = document.getElementById('navSignIn');
+    const navInvite = document.getElementById('navInvite');
+    const navUser = document.getElementById('navUser');
+    const navUserEmail = document.getElementById('navUserEmail');
+    const memberDashboard = document.getElementById('memberDashboard');
+    const inviteSection = document.getElementById('invite');
+
+    // Mobile nav elements
+    const mobileSignIn = document.getElementById('mobileSignIn');
+    const mobileInvite = document.getElementById('mobileInvite');
+    const mobileUser = document.getElementById('mobileUser');
+    const mobileUserEmail = document.getElementById('mobileUserEmail');
+
+    if (user) {
+      // User is signed in
+      if (navSignIn) navSignIn.hidden = true;
+      if (navInvite) navInvite.hidden = true;
+      if (navUser) {
+        navUser.hidden = false;
+        if (navUserEmail) navUserEmail.textContent = user.email;
+      }
+      if (memberDashboard) {
+        memberDashboard.hidden = false;
+        // Trigger reveal animations
+        memberDashboard.querySelectorAll('.reveal').forEach(el => {
+          el.classList.add('is-visible');
+        });
+      }
+      if (inviteSection) inviteSection.hidden = true;
+
+      // Mobile nav
+      if (mobileSignIn) mobileSignIn.hidden = true;
+      if (mobileInvite) mobileInvite.hidden = true;
+      if (mobileUser) {
+        mobileUser.hidden = false;
+        if (mobileUserEmail) mobileUserEmail.textContent = user.email;
+      }
+    } else {
+      // User is signed out
+      if (navSignIn) navSignIn.hidden = false;
+      if (navInvite) navInvite.hidden = false;
+      if (navUser) navUser.hidden = true;
+      if (memberDashboard) memberDashboard.hidden = true;
+      if (inviteSection) inviteSection.hidden = false;
+
+      // Mobile nav
+      if (mobileSignIn) mobileSignIn.hidden = false;
+      if (mobileInvite) mobileInvite.hidden = false;
+      if (mobileUser) mobileUser.hidden = true;
+    }
+  }
+
+  /* ---------- Auth Modal ---------- */
+  const authModal = document.getElementById('authModal');
+  const authModalOverlay = document.getElementById('authModalOverlay');
+  const authModalClose = document.getElementById('authModalClose');
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+  const authToggle = document.getElementById('authToggle');
+  const authToggleText = document.getElementById('authToggleText');
+  const authModalTitle = document.getElementById('authModalTitle');
+  const authModalSubtitle = document.getElementById('authModalSubtitle');
+
+  let isLoginMode = true;
+
+  function openAuthModal() {
+    if (authModal) {
+      authModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeAuthModal() {
+    if (authModal) {
+      authModal.hidden = true;
+      document.body.style.overflow = '';
+      resetAuthForms();
+    }
+  }
+
+  function resetAuthForms() {
+    if (loginForm) loginForm.reset();
+    if (signupForm) signupForm.reset();
+    hideAuthErrors();
+  }
+
+  function hideAuthErrors() {
+    const loginError = document.getElementById('loginError');
+    const signupError = document.getElementById('signupError');
+    if (loginError) loginError.hidden = true;
+    if (signupError) signupError.hidden = true;
+
+    // Clear field errors
+    document.querySelectorAll('.auth-form .field').forEach(field => {
+      field.classList.remove('has-error');
+    });
+  }
+
+  function toggleAuthMode() {
+    isLoginMode = !isLoginMode;
+    hideAuthErrors();
+
+    if (isLoginMode) {
+      if (loginForm) loginForm.hidden = false;
+      if (signupForm) signupForm.hidden = true;
+      if (authToggle) authToggle.textContent = 'Sign Up';
+      if (authToggleText) authToggleText.textContent = "Don't have an account?";
+      if (authModalTitle) authModalTitle.textContent = 'Welcome Back';
+      if (authModalSubtitle) authModalSubtitle.textContent = 'Sign in to access member-only content';
+    } else {
+      if (loginForm) loginForm.hidden = true;
+      if (signupForm) signupForm.hidden = false;
+      if (authToggle) authToggle.textContent = 'Sign In';
+      if (authToggleText) authToggleText.textContent = 'Already have an account?';
+      if (authModalTitle) authModalTitle.textContent = 'Create Account';
+      if (authModalSubtitle) authModalSubtitle.textContent = 'Join the Ascend NYC community';
+    }
+  }
+
+  // Event listeners for modal
+  if (authModalOverlay) authModalOverlay.addEventListener('click', closeAuthModal);
+  if (authModalClose) authModalClose.addEventListener('click', closeAuthModal);
+  if (authToggle) authToggle.addEventListener('click', toggleAuthMode);
+
+  // Open modal from nav
+  const navSignIn = document.getElementById('navSignIn');
+  const mobileSignIn = document.getElementById('mobileSignIn');
+  if (navSignIn) navSignIn.addEventListener('click', (e) => { e.preventDefault(); openAuthModal(); });
+  if (mobileSignIn) mobileSignIn.addEventListener('click', (e) => { e.preventDefault(); openAuthModal(); });
+
+  // Sign out buttons
+  const navSignOut = document.getElementById('navSignOut');
+  const mobileSignOut = document.getElementById('mobileSignOut');
+  if (navSignOut) navSignOut.addEventListener('click', () => auth && auth.signOut());
+  if (mobileSignOut) mobileSignOut.addEventListener('click', () => auth && auth.signOut());
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && authModal && !authModal.hidden) {
+      closeAuthModal();
+    }
+  });
+
+  /* ---------- Auth Error Messages ---------- */
+  function getAuthErrorMessage(errorCode) {
+    const messages = {
+      'auth/email-already-in-use': 'An account with this email already exists.',
+      'auth/invalid-email': 'Please enter a valid email address.',
+      'auth/operation-not-allowed': 'Email/password accounts are not enabled.',
+      'auth/weak-password': 'Password should be at least 6 characters.',
+      'auth/user-disabled': 'This account has been disabled.',
+      'auth/user-not-found': 'No account found with this email.',
+      'auth/wrong-password': 'Incorrect password.',
+      'auth/too-many-requests': 'Too many attempts. Please try again later.',
+      'auth/invalid-credential': 'Invalid email or password.',
+      'auth/network-request-failed': 'Network error. Please check your connection.',
+    };
+    return messages[errorCode] || 'An error occurred. Please try again.';
+  }
+
+  /* ---------- Login Form Submit ---------- */
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errorEl = document.getElementById('loginError');
+      const submitBtn = loginForm.querySelector('button[type="submit"]');
+
+      // Disable button during request
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+      }
+
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        closeAuthModal();
+      } catch (error) {
+        if (errorEl) {
+          errorEl.textContent = getAuthErrorMessage(error.code);
+          errorEl.hidden = false;
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In';
+        }
+      }
+    });
+  }
+
+  /* ---------- Signup Form Submit ---------- */
+  if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+      const errorEl = document.getElementById('signupError');
+      const submitBtn = signupForm.querySelector('button[type="submit"]');
+
+      // Validate passwords match
+      if (password !== passwordConfirm) {
+        if (errorEl) {
+          errorEl.textContent = 'Passwords do not match.';
+          errorEl.hidden = false;
+        }
+        return;
+      }
+
+      // Disable button during request
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating account...';
+      }
+
+      try {
+        await auth.createUserWithEmailAndPassword(email, password);
+        closeAuthModal();
+      } catch (error) {
+        if (errorEl) {
+          errorEl.textContent = getAuthErrorMessage(error.code);
+          errorEl.hidden = false;
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account';
+        }
+      }
+    });
+  }
+
+  /* ---------- Password Reset ---------- */
+  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+  if (forgotPasswordBtn) {
+    forgotPasswordBtn.addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const errorEl = document.getElementById('loginError');
+
+      if (!email) {
+        if (errorEl) {
+          errorEl.textContent = 'Please enter your email address first.';
+          errorEl.hidden = false;
+        }
+        return;
+      }
+
+      try {
+        await auth.sendPasswordResetEmail(email);
+        if (errorEl) {
+          errorEl.style.background = 'rgba(245, 165, 36, 0.1)';
+          errorEl.style.borderColor = 'var(--accent-line)';
+          errorEl.style.color = 'var(--accent-2)';
+          errorEl.textContent = 'Password reset email sent! Check your inbox.';
+          errorEl.hidden = false;
+        }
+      } catch (error) {
+        if (errorEl) {
+          errorEl.textContent = getAuthErrorMessage(error.code);
+          errorEl.hidden = false;
+        }
+      }
+    });
+  }
+
   /* ---------- Year ---------- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

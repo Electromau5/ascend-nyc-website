@@ -26,7 +26,14 @@
         <a href="#room">The Room</a>
         <a href="#techweek">Tech Week</a>
       </nav>
-      <a href="#invite" class="btn btn--small">Request an Invite</a>
+      <div class="nav__auth" id="navAuth">
+        <a href="#" class="nav__signin" id="navSignIn">Sign In</a>
+        <a href="#invite" class="btn btn--small" id="navInvite">Request an Invite</a>
+        <span class="nav__user" id="navUser" hidden>
+          <span class="nav__user-email" id="navUserEmail"></span>
+          <button class="btn btn--small btn--ghost" id="navSignOut">Sign Out</button>
+        </span>
+      </div>
       <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false" id="navToggle">
         <span></span><span></span><span></span>
       </button>
@@ -36,7 +43,12 @@
       <a href="#vibescape">VibeMatch</a>
       <a href="#room">The Room</a>
       <a href="#techweek">Tech Week</a>
-      <a href="#invite" class="btn btn--small btn--full">Request an Invite</a>
+      <a href="#" class="nav__signin" id="mobileSignIn">Sign In</a>
+      <a href="#invite" class="btn btn--small btn--full" id="mobileInvite">Request an Invite</a>
+      <span class="nav__user" id="mobileUser" hidden>
+        <span id="mobileUserEmail"></span>
+        <button class="btn btn--small btn--ghost btn--full" id="mobileSignOut">Sign Out</button>
+      </span>
     </div>
   </header>
 
@@ -342,6 +354,35 @@
       </div>
     </section>
 
+    <!-- MEMBER DASHBOARD (visible only when authenticated) -->
+    <section class="section section--member" id="memberDashboard" hidden>
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow eyebrow--accent">Member Access</span>
+          <h2 class="section__title">Welcome to the <em>Inner Circle</em></h2>
+          <p class="section__lede">Exclusive content and resources for Ascend NYC members.</p>
+        </div>
+
+        <div class="member-content">
+          <div class="member-card reveal">
+            <h3>Upcoming Private Events</h3>
+            <p>Access to exclusive event details and early registration for members-only gatherings.</p>
+            <a href="#" class="btn btn--ghost">View Events</a>
+          </div>
+          <div class="member-card reveal">
+            <h3>Member Directory</h3>
+            <p>Connect with other founders, investors, and builders in the Ascend network.</p>
+            <a href="#" class="btn btn--ghost">Browse Directory</a>
+          </div>
+          <div class="member-card reveal">
+            <h3>VibeMatch Profile</h3>
+            <p>Update your profile for better AI-powered matching at upcoming events.</p>
+            <a href="#" class="btn btn--ghost">Edit Profile</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- INVITE / WAITLIST -->
     <section class="section section--invite" id="invite">
       <div class="container invite">
@@ -443,6 +484,74 @@
     </div>
   </footer>
 
+  <!-- Auth Modal -->
+  <div class="auth-modal" id="authModal" hidden>
+    <div class="auth-modal__overlay" id="authModalOverlay"></div>
+    <div class="auth-modal__content">
+      <button class="auth-modal__close" id="authModalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="auth-modal__header">
+        <h2 class="auth-modal__title" id="authModalTitle">Welcome Back</h2>
+        <p class="auth-modal__subtitle" id="authModalSubtitle">Sign in to access member-only content</p>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form" id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" name="email" type="email" autocomplete="email" required />
+          <span class="field__error" data-error-for="loginEmail"></span>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" name="password" type="password" autocomplete="current-password" required />
+          <span class="field__error" data-error-for="loginPassword"></span>
+        </div>
+        <div class="auth-form__error" id="loginError" hidden></div>
+        <button type="submit" class="btn btn--primary btn--full">Sign In</button>
+      </form>
+
+      <!-- Signup Form (hidden by default) -->
+      <form class="auth-form" id="signupForm" hidden>
+        <div class="field">
+          <label for="signupEmail">Email</label>
+          <input id="signupEmail" name="email" type="email" autocomplete="email" required />
+          <span class="field__error" data-error-for="signupEmail"></span>
+        </div>
+        <div class="field">
+          <label for="signupPassword">Password</label>
+          <input id="signupPassword" name="password" type="password" autocomplete="new-password" required minlength="6" />
+          <span class="field__error" data-error-for="signupPassword"></span>
+        </div>
+        <div class="field">
+          <label for="signupPasswordConfirm">Confirm Password</label>
+          <input id="signupPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" required />
+          <span class="field__error" data-error-for="signupPasswordConfirm"></span>
+        </div>
+        <div class="auth-form__error" id="signupError" hidden></div>
+        <button type="submit" class="btn btn--primary btn--full">Create Account</button>
+      </form>
+
+      <!-- Toggle between login/signup -->
+      <div class="auth-modal__toggle">
+        <span id="authToggleText">Don't have an account?</span>
+        <button type="button" class="auth-modal__toggle-btn" id="authToggle">Sign Up</button>
+      </div>
+
+      <!-- Password Reset Link -->
+      <div class="auth-modal__forgot">
+        <button type="button" class="auth-modal__forgot-btn" id="forgotPasswordBtn">Forgot password?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="main.js" defer></script>
 </body>
 </html>
