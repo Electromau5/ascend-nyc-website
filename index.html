@@ -8,7 +8,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/open-sauce-sans@latest/index.css" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -18,37 +20,29 @@
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#top" class="wordmark" aria-label="Ascend NYC home">
-        <img class="wordmark__logo" src="logo.png" alt="Ascend NYC" />
+        Ascend<span class="wordmark__tag">NYC</span>
       </a>
       <nav class="nav__links" aria-label="Primary">
-        <a href="#what">Events</a>
-        <a href="#vibescape">VibeMatch</a>
-        <a href="#room">The Room</a>
-        <a href="#techweek">Tech Week</a>
+        <a href="#about">About</a>
+        <a href="#problem">The Problem</a>
+        <a href="#events">Events</a>
+        <a href="#join">How to Join</a>
+        <a href="#vibescape">VibeMatch AI</a>
       </nav>
       <div class="nav__auth" id="navAuth">
-        <a href="#" class="nav__signin" id="navSignIn">Sign In</a>
-        <a href="#invite" class="btn btn--small" id="navInvite">Request an Invite</a>
-        <span class="nav__user" id="navUser" hidden>
-          <span class="nav__user-email" id="navUserEmail"></span>
-          <button class="btn btn--small btn--ghost" id="navSignOut">Sign Out</button>
-        </span>
+        <a href="#top" class="btn btn--small btn--primary" id="navInvite">Request an Invite</a>
       </div>
       <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false" id="navToggle">
         <span></span><span></span><span></span>
       </button>
     </div>
     <div class="nav__mobile" id="navMobile">
-      <a href="#what">Events</a>
-      <a href="#vibescape">VibeMatch</a>
-      <a href="#room">The Room</a>
-      <a href="#techweek">Tech Week</a>
-      <a href="#" class="nav__signin" id="mobileSignIn">Sign In</a>
-      <a href="#invite" class="btn btn--small btn--full" id="mobileInvite">Request an Invite</a>
-      <span class="nav__user" id="mobileUser" hidden>
-        <span id="mobileUserEmail"></span>
-        <button class="btn btn--small btn--ghost btn--full" id="mobileSignOut">Sign Out</button>
-      </span>
+      <a href="#about">About</a>
+      <a href="#problem">The Problem</a>
+      <a href="#events">Events</a>
+      <a href="#join">How to Join</a>
+      <a href="#vibescape">VibeMatch AI</a>
+      <a href="#top" class="btn btn--small btn--primary btn--full" id="mobileInvite">Request an Invite</a>
     </div>
   </header>
 
@@ -56,67 +50,30 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero__bg" aria-hidden="true">
-        <canvas id="particles"></canvas>
-        <div class="hero__mesh"></div>
-        <div class="hero__grid"></div>
-      </div>
+      <div class="hero__bg" aria-hidden="true"></div>
       <div class="container hero__inner">
-        <span class="eyebrow reveal">Invite-Only · New York City</span>
-        <h1 class="hero__title reveal">We Are All About<br /><span class="grad">Connections That Last</span></h1>
-        <p class="hero__sub reveal">An invite-only community for founders, investors, and AI builders in New York City.</p>
-        <div class="hero__ctas reveal">
-          <a href="#invite" class="btn btn--primary">Request an Invite <span aria-hidden="true">→</span></a>
-          <a href="#what" class="btn btn--ghost">See How It Works</a>
-        </div>
+        <h1 class="hero__title reveal">We Are All About <span class="grad">Connections That Last</span></h1>
+        <p class="hero__sub reveal">An invite-only community for founders, investors, and AI builders in New York City powered by <span class="grad">VibeMatch AI</span></p>
+
+        <!-- SINGLE CTA: Join the Community (email capture) -->
+        <form class="hero__join reveal" id="joinForm" novalidate>
+          <input class="hero__join-input" type="email" name="email" placeholder="Enter your email" aria-label="Email address" autocomplete="email" required />
+          <button type="submit" class="btn btn--primary hero__join-btn">Join the Community <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="hero__join-success" id="joinSuccess" hidden>✓ You're on the list — we'll be in touch soon.</p>
+
         <div class="hero__meta reveal">
-          <div><span class="dot"></span> Curated · By Application</div>
-          <div class="hero__meta-sep" aria-hidden="true"></div>
-          <div>Founders · Investors · AI Builders</div>
+          <div><span class="dot"></span> Built for Founders, Investors and AI Visionaries</div>
         </div>
-      </div>
-      <div class="hero__scroll" aria-hidden="true">
-        <span></span>
+
       </div>
     </section>
 
-    <!-- THE PROBLEM -->
-    <section class="section section--problem" id="problem">
+    <!-- ABOUT — What We Do -->
+    <section class="section section--what" id="about">
       <div class="container">
         <div class="section__head reveal">
-          <span class="eyebrow">01 — The Problem</span>
-          <h2 class="section__title">Most Networking <em>Is Broken</em></h2>
-        </div>
-        <div class="problems">
-          <div class="problem reveal">
-            <span class="problem__num">i</span>
-            <h3>Crowded rooms.<br />Low-signal conversations.</h3>
-            <p>Mass-market events optimize for footfall, not fit. The signal-to-noise ratio is brutal.</p>
-          </div>
-          <div class="problem reveal">
-            <span class="problem__num">ii</span>
-            <h3>Thirty business cards.<br />Zero real connections.</h3>
-            <p>Surface-level chatter, no follow-through. Most rooms forget you within 24 hours.</p>
-          </div>
-          <div class="problem reveal">
-            <span class="problem__num">iii</span>
-            <h3>The right people were there.<br />You just never found them.</h3>
-            <p>Your future co-founder, lead investor, or first hire was 12 feet away — and you talked past each other.</p>
-          </div>
-          <div class="problem reveal">
-            <span class="problem__num">iv</span>
-            <h3>The follow-up is a graveyard.<br />The intros never come.</h3>
-            <p>Without structure and signal, even great rooms produce nothing of lasting value.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT WE DO -->
-    <section class="section section--what" id="what">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="eyebrow">02 — What We Do</span>
+          <span class="eyebrow">01 — About</span>
           <h2 class="section__title">We Built Something <em>Different</em></h2>
           <p class="section__lede">Ascend NYC is a curated, invite-only network for the people building New York's next decade. Every event is engineered for high-signal connection — small enough to matter, sharp enough to compound. Three formats, one standard: the right people, in the right room, with the right reason to talk.</p>
         </div>
@@ -127,7 +84,7 @@
             <p class="card__sub">Top-of-funnel · Curated · High-energy</p>
             <p class="card__body">Our anchor format. A tight, vetted room of founders, operators, and capital — set in a venue that matches the bar. Energy on, ego off.</p>
             <div class="card__tags">
-              <span>~80 guests</span><span>Quarterly</span>
+              <span>100 guests</span>
             </div>
           </article>
           <article class="card card--accent reveal">
@@ -136,7 +93,7 @@
             <p class="card__sub">Structured · Operator-led · High-signal</p>
             <p class="card__body">Live, off-the-record conversations between operators and capital. No fluff, no panel-circuit clichés — just the real mechanics behind the rounds you read about.</p>
             <div class="card__tags">
-              <span>~50 guests</span><span>By topic</span>
+              <span>~50 guests</span>
             </div>
           </article>
           <article class="card card--vip reveal">
@@ -145,104 +102,18 @@
             <p class="card__sub">Intimate · Curated · By referral only</p>
             <p class="card__body">Our most exclusive format. A small table, a private room, and a guest list earned by reputation. The conversations here don't end when dinner does.</p>
             <div class="card__tags">
-              <span>12 seats</span><span>Referral only</span>
+              <span>12 seats</span>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- VIBESCAPE -->
-    <section class="section section--vibescape" id="vibescape">
-      <div class="container vibescape">
-        <div class="vibescape__copy">
-          <span class="eyebrow eyebrow--accent reveal">03 — VibeMatch</span>
-          <h2 class="section__title reveal">Introducing <span class="grad">VibeMatch</span></h2>
-          <p class="section__sub reveal">AI-powered attendee matching. Built in-house. Exclusive to Ascend NYC.</p>
-          <p class="section__lede reveal">VibeMatch studies each attendee's goals, personality, and professional profile — then surfaces the connections with the highest probability of long-term ROI. Less scanning the room. More finding your person.</p>
-
-          <ul class="features reveal">
-            <li>
-              <span class="feature__bullet" aria-hidden="true"></span>
-              <div>
-                <h4>Pre-event compatibility matching</h4>
-                <p>Every guest is profiled before they walk in. The room is composed, not assembled.</p>
-              </div>
-            </li>
-            <li>
-              <span class="feature__bullet" aria-hidden="true"></span>
-              <div>
-                <h4>Goal-aligned introductions</h4>
-                <p>Whether you're raising, hiring, or hunting for a co-founder — VibeMatch routes you to the people who move that needle.</p>
-              </div>
-            </li>
-            <li>
-              <span class="feature__bullet" aria-hidden="true"></span>
-              <div>
-                <h4>Curated seating &amp; connection paths</h4>
-                <p>Seating, intros, and follow-ups are choreographed. Serendipity, but engineered.</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="vibescape__visual reveal" aria-hidden="true">
-          <div class="visual__ring"></div>
-          <div class="visual__ring visual__ring--2"></div>
-          <svg viewBox="0 0 480 480" class="visual__graph" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <radialGradient id="nodeGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#FFD699" stop-opacity="1"/>
-                <stop offset="100%" stop-color="#F5A524" stop-opacity="0"/>
-              </radialGradient>
-              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#F5A524" stop-opacity="0.0"/>
-                <stop offset="50%" stop-color="#FFC468" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#F5A524" stop-opacity="0.0"/>
-              </linearGradient>
-            </defs>
-
-            <g class="graph__edges" stroke="url(#lineGrad)" stroke-width="1" fill="none">
-              <line x1="240" y1="240" x2="120" y2="110" />
-              <line x1="240" y1="240" x2="370" y2="120" />
-              <line x1="240" y1="240" x2="100" y2="290" />
-              <line x1="240" y1="240" x2="380" y2="320" />
-              <line x1="240" y1="240" x2="200" y2="400" />
-              <line x1="240" y1="240" x2="320" y2="400" />
-              <line x1="120" y1="110" x2="370" y2="120" />
-              <line x1="100" y1="290" x2="200" y2="400" />
-              <line x1="380" y1="320" x2="320" y2="400" />
-              <line x1="370" y1="120" x2="380" y2="320" />
-              <line x1="120" y1="110" x2="100" y2="290" />
-            </g>
-
-            <g class="graph__nodes">
-              <circle cx="240" cy="240" r="22" class="node node--core" />
-              <circle cx="120" cy="110" r="9" class="node" />
-              <circle cx="370" cy="120" r="11" class="node" />
-              <circle cx="100" cy="290" r="8" class="node" />
-              <circle cx="380" cy="320" r="10" class="node" />
-              <circle cx="200" cy="400" r="9" class="node" />
-              <circle cx="320" cy="400" r="8" class="node" />
-            </g>
-
-            <g class="graph__pulse">
-              <circle cx="240" cy="240" r="22" class="pulse" />
-              <circle cx="240" cy="240" r="22" class="pulse pulse--2" />
-            </g>
-          </svg>
-          <div class="visual__chip visual__chip--1">match · 0.92</div>
-          <div class="visual__chip visual__chip--2">goal-aligned</div>
-          <div class="visual__chip visual__chip--3">seat path mapped</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHO'S IN THE ROOM -->
+    <!-- ABOUT — Who We Bring Together -->
     <section class="section section--room" id="room">
       <div class="container">
         <div class="section__head reveal">
-          <span class="eyebrow">04 — The Room</span>
+          <span class="eyebrow">The Room</span>
           <h2 class="section__title">Who We <em>Bring Together</em></h2>
           <p class="section__lede">Ascend isn't a list — it's a composition. Each room is built around a deliberate mix of people whose paths should cross.</p>
         </div>
@@ -279,28 +150,61 @@
       </div>
     </section>
 
-    <!-- UPCOMING EVENTS -->
+    <!-- THE PROBLEM -->
+    <section class="section section--problem" id="problem">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow">02 — The Problem</span>
+          <h2 class="section__title">Most Networking <em>Is Broken</em></h2>
+        </div>
+        <div class="problems">
+          <div class="problem reveal">
+            <span class="problem__num">i</span>
+            <h3>Crowded rooms.<br />Low-signal conversations.</h3>
+            <p>Mass-market events optimize for footfall, not fit. The signal-to-noise ratio is brutal.</p>
+          </div>
+          <div class="problem reveal">
+            <span class="problem__num">ii</span>
+            <h3>Thirty business cards.<br />Zero real connections.</h3>
+            <p>Surface-level chatter, no follow-through. Most rooms forget you within 24 hours.</p>
+          </div>
+          <div class="problem reveal">
+            <span class="problem__num">iii</span>
+            <h3>The right people were there.<br />You just never found them.</h3>
+            <p>Your future co-founder, lead investor, or first hire was 12 feet away — and you talked past each other.</p>
+          </div>
+          <div class="problem reveal">
+            <span class="problem__num">iv</span>
+            <h3>The follow-up is a graveyard.<br />The intros never come.</h3>
+            <p>Without structure and signal, even great rooms produce nothing of lasting value.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS — Upcoming Events · Past Events · Rooms Built for Signal -->
     <section class="section section--events" id="events">
       <div class="container">
         <div class="section__head reveal">
-          <span class="eyebrow">05 — Upcoming Events</span>
-          <h2 class="section__title">Get in the <em>Room</em></h2>
-          <p class="section__lede">Every Ascend event is curated, capacity-limited, and application-only. These are the rooms worth being in.</p>
+          <span class="eyebrow">03 — Events</span>
+          <h2 class="section__title">Upcoming <em>Events</em></h2>
+          <p class="section__lede">Every Ascend event is curated, capacity-limited, and application-only — the rooms worth being in.</p>
         </div>
 
+        <!-- UPCOMING -->
         <div class="event-cards">
           <article class="event-card reveal">
             <div class="event-card__left">
               <div class="event-card__badge">
                 <span class="dot"></span> Approval Required
               </div>
-              <h3 class="event-card__title">Wavelength: Founders &amp; Investors Night</h3>
-              <p class="event-card__subtitle">AI-Curated Matches Powered by VibeMatch</p>
-              <p class="event-card__desc">NYC's sharpest founders, builders, technologists, and investors — matched by AI before you walk in. No panels. No pitch contests. No small talk. Just the connections that actually move things forward.</p>
+              <h3 class="event-card__title">Rising Founders</h3>
+              <p class="event-card__subtitle">Official Event · NYC Tech Week 2026</p>
+              <p class="event-card__desc">A curated room of founders, investors, and AI builders during NYC Tech Week 2026 — in a city that's quietly become the center of gravity for the next wave.</p>
               <div class="event-card__meta">
                 <span class="event-card__meta-item">
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4l2.5 2"/></svg>
-                  Date &amp; venue revealed upon registration
+                  June 1–7, 2026 · Venue revealed upon registration
                 </span>
                 <span class="event-card__meta-item">
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.5 4.5 8.5 4.5 8.5s4.5-5 4.5-8.5c0-2.5-2-4.5-4.5-4.5z"/><circle cx="8" cy="6" r="1.5"/></svg>
@@ -308,10 +212,10 @@
                 </span>
                 <span class="event-card__meta-item">
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 13.5l11-11M8 2.5h5.5V8"/></svg>
-                  Limited capacity
+                  Limited capacity · Application required
                 </span>
               </div>
-              <a href="https://luma.com/r5tzt553" target="_blank" rel="noopener noreferrer" class="btn btn--primary event-card__cta">Apply on Luma <span aria-hidden="true">→</span></a>
+              <a href="#top" class="btn btn--primary event-card__cta">Get on the List <span aria-hidden="true">→</span></a>
             </div>
             <div class="event-card__right" aria-hidden="true">
               <div class="event-card__gfx">
@@ -333,124 +237,182 @@
             </div>
           </article>
         </div>
-      </div>
-    </section>
 
-    <!-- TECH WEEK -->
-    <section class="section section--techweek" id="techweek">
-      <div class="container">
-        <div class="techweek reveal">
-          <div class="techweek__pattern" aria-hidden="true"></div>
-          <div class="techweek__inner">
-            <span class="eyebrow eyebrow--accent">Official Event · NYC Tech Week 2026</span>
-            <h2 class="techweek__title">A Night Built for the People <em>Building the Future.</em></h2>
-            <p class="techweek__copy">Ascend NYC is hosting an official event during NYC Tech Week 2026 — <strong>June 1–7</strong>. A curated room of founders, investors, and AI builders, in a city that's quietly become the center of gravity for the next wave.</p>
-            <div class="techweek__ctas">
-              <a href="#invite" class="btn btn--primary">Get on the List <span aria-hidden="true">→</span></a>
-              <span class="techweek__meta">Limited capacity · Application required</span>
+        <!-- PAST EVENTS -->
+        <div class="events-past" id="history">
+          <h3 class="events-subhead reveal">Past Events</h3>
+          <div class="history-grid">
+
+            <!-- Wavelength — the only past event -->
+            <article class="history-card reveal">
+              <div class="history-card__photo history-card__photo--1">
+                <span class="history-card__vol">Vol. 01</span>
+                <span class="history-card__format-badge">Flagship Mixer</span>
+              </div>
+              <div class="history-card__body">
+                <div class="history-card__meta">
+                  <span>New York City</span>
+                  <span class="history-card__sep" aria-hidden="true"></span>
+                  <span>Invite Only</span>
+                  <span class="history-card__sep" aria-hidden="true"></span>
+                  <span>VibeMatch Powered</span>
+                </div>
+                <h3 class="history-card__title">Wavelength: The First Room</h3>
+                <p class="history-card__desc">NYC's first AI-matched founders' night. 42 people. No panels, no pitch contests — just the connections that actually compound.</p>
+                <div class="history-card__stats">
+                  <div class="history-stat">
+                    <span class="history-stat__num">42</span>
+                    <span class="history-stat__label">Attendees</span>
+                  </div>
+                  <div class="history-stat">
+                    <span class="history-stat__num">89%</span>
+                    <span class="history-stat__label">Made a real connection</span>
+                  </div>
+                  <div class="history-stat">
+                    <span class="history-stat__num">6</span>
+                    <span class="history-stat__label">Intro threads started</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <div class="history-footer reveal">
+            <p class="history-footer__text">Photos and full recaps from each event are shared exclusively with attendees and members.</p>
+            <a href="#top" class="btn btn--ghost">Apply to Attend the Next One <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <!-- ROOMS BUILT FOR SIGNAL -->
+        <div class="events-stats">
+          <h3 class="events-subhead reveal">Rooms Built for Signal</h3>
+          <p class="events-stats__lede reveal">No footfall metrics. No vanity numbers. Just what actually happened when the right people were matched and put in the same room.</p>
+          <div class="statwall reveal">
+            <div class="statbig">
+              <div class="statbig__num">42</div>
+              <div class="statbig__label">In the first room</div>
+            </div>
+            <div class="statbig">
+              <div class="statbig__num">92%</div>
+              <div class="statbig__label">Made a real connection</div>
+            </div>
+            <div class="statbig">
+              <div class="statbig__num">100%</div>
+              <div class="statbig__label">Said they'd come back</div>
+            </div>
+            <div class="statbig">
+              <div class="statbig__num">3</div>
+              <div class="statbig__label">Curated event formats</div>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- MEMBER DASHBOARD (visible only when authenticated) -->
-    <section class="section section--member" id="memberDashboard" hidden>
+    <!-- HOW TO JOIN -->
+    <section class="section section--steps" id="join">
       <div class="container">
         <div class="section__head reveal">
-          <span class="eyebrow eyebrow--accent">Member Access</span>
-          <h2 class="section__title">Welcome to the <em>Inner Circle</em></h2>
-          <p class="section__lede">Exclusive content and resources for Ascend NYC members.</p>
+          <span class="eyebrow">04 — How to Join</span>
+          <h2 class="section__title">Earned, <em>Not Given</em></h2>
+          <p class="section__lede">There's no algorithm at the door — just a high bar and a real read. Here's how a seat at an Ascend room actually happens.</p>
+        </div>
+        <div class="steps">
+          <div class="step reveal">
+            <span class="step__num">1</span>
+            <h3>Apply</h3>
+            <p>Tell us a little about you — your work, your goals, and why this room. It takes a few minutes, and it's the only door in.</p>
+          </div>
+          <div class="step reveal">
+            <span class="step__num">2</span>
+            <h3>We Review</h3>
+            <p>We review every application personally. No algorithms at the door, just a high bar and a real read on fit for the room.</p>
+          </div>
+          <div class="step reveal">
+            <span class="step__num">3</span>
+            <h3>Get VibeMatched</h3>
+            <p>Once you're in, VibeMatch profiles you and pre-matches your highest-ROI connections — so the room is composed before you walk in.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIBEMATCH AI -->
+    <section class="section section--vibescape" id="vibescape">
+      <div class="container vibescape">
+        <div class="vibescape__copy">
+          <span class="eyebrow eyebrow--accent reveal">05 — VibeMatch AI</span>
+          <h2 class="section__title reveal">Introducing <span class="grad">VibeMatch</span></h2>
+          <p class="section__sub reveal">AI-powered attendee matching. Built in-house. Exclusive to Ascend NYC.</p>
+          <p class="section__lede reveal">VibeMatch studies each attendee's goals, personality, and professional profile — then surfaces the connections with the highest probability of long-term ROI. Less scanning the room. More finding your person.</p>
+
+          <ul class="features reveal">
+            <li>
+              <span class="feature__bullet" aria-hidden="true"></span>
+              <div>
+                <h4>Pre-event compatibility matching</h4>
+                <p>Every guest is profiled before they walk in. The room is composed, not assembled.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature__bullet" aria-hidden="true"></span>
+              <div>
+                <h4>Goal-aligned introductions</h4>
+                <p>Whether you're raising, hiring, or hunting for a co-founder — VibeMatch routes you to the people who move that needle.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature__bullet" aria-hidden="true"></span>
+              <div>
+                <h4>Curated seating &amp; connection paths</h4>
+                <p>Seating, intros, and follow-ups are choreographed. Serendipity, but engineered.</p>
+              </div>
+            </li>
+          </ul>
         </div>
 
-        <div class="member-content">
-          <div class="member-card reveal">
-            <h3>Upcoming Private Events</h3>
-            <p>Access to exclusive event details and early registration for members-only gatherings.</p>
-            <a href="#" class="btn btn--ghost">View Events</a>
-          </div>
-          <div class="member-card reveal">
-            <h3>Member Directory</h3>
-            <p>Connect with other founders, investors, and builders in the Ascend network.</p>
-            <a href="#" class="btn btn--ghost">Browse Directory</a>
-          </div>
-          <div class="member-card reveal">
-            <h3>VibeMatch Profile</h3>
-            <p>Update your profile for better AI-powered matching at upcoming events.</p>
-            <a href="#" class="btn btn--ghost">Edit Profile</a>
-          </div>
+        <div class="vibescape__visual reveal" aria-hidden="true">
+          <div class="visual__ring"></div>
+          <div class="visual__ring visual__ring--2"></div>
+          <svg viewBox="0 0 480 480" class="visual__graph" preserveAspectRatio="xMidYMid meet">
+            <g class="graph__edges" stroke-width="1" fill="none">
+              <line x1="240" y1="240" x2="120" y2="110" />
+              <line x1="240" y1="240" x2="370" y2="120" />
+              <line x1="240" y1="240" x2="100" y2="290" />
+              <line x1="240" y1="240" x2="380" y2="320" />
+              <line x1="240" y1="240" x2="200" y2="400" />
+              <line x1="240" y1="240" x2="320" y2="400" />
+              <line x1="120" y1="110" x2="370" y2="120" />
+              <line x1="100" y1="290" x2="200" y2="400" />
+              <line x1="380" y1="320" x2="320" y2="400" />
+              <line x1="370" y1="120" x2="380" y2="320" />
+              <line x1="120" y1="110" x2="100" y2="290" />
+            </g>
+
+            <g class="graph__nodes">
+              <circle cx="240" cy="240" r="22" class="node node--core" />
+              <circle cx="120" cy="110" r="9" class="node" />
+              <circle cx="370" cy="120" r="11" class="node" />
+              <circle cx="100" cy="290" r="8" class="node" />
+              <circle cx="380" cy="320" r="10" class="node" />
+              <circle cx="200" cy="400" r="9" class="node" />
+              <circle cx="320" cy="400" r="8" class="node" />
+            </g>
+
+            <g class="graph__pulse">
+              <circle cx="240" cy="240" r="22" class="pulse" />
+              <circle cx="240" cy="240" r="22" class="pulse pulse--2" />
+            </g>
+          </svg>
+          <div class="visual__chip visual__chip--1">match · 0.92</div>
+          <div class="visual__chip visual__chip--2">goal-aligned</div>
+          <div class="visual__chip visual__chip--3">seat path mapped</div>
         </div>
       </div>
     </section>
 
-    <!-- INVITE / WAITLIST -->
-    <section class="section section--invite" id="invite">
-      <div class="container invite">
-        <div class="invite__head reveal">
-          <span class="eyebrow eyebrow--accent">06 — Apply for Access</span>
-          <h2 class="section__title">The Right Room <em>Starts Here.</em></h2>
-          <p class="section__lede">Tell us a little about you. We review every application personally — no algorithms at the door, just a high bar and a real read.</p>
-        </div>
-
-        <form class="form reveal" id="inviteForm" novalidate>
-          <div class="form__row form__row--2">
-            <div class="field">
-              <label for="name">Full Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required />
-              <span class="field__error" data-error-for="name"></span>
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required />
-              <span class="field__error" data-error-for="email"></span>
-            </div>
-          </div>
-
-          <div class="form__row form__row--2">
-            <div class="field">
-              <label for="linkedin">LinkedIn URL</label>
-              <input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/…" required />
-              <span class="field__error" data-error-for="linkedin"></span>
-            </div>
-            <div class="field">
-              <label for="role">Role / Title</label>
-              <input id="role" name="role" type="text" required />
-              <span class="field__error" data-error-for="role"></span>
-            </div>
-          </div>
-
-          <div class="form__row">
-            <div class="field">
-              <label for="company">Company</label>
-              <input id="company" name="company" type="text" required />
-              <span class="field__error" data-error-for="company"></span>
-            </div>
-          </div>
-
-          <div class="form__row">
-            <div class="field">
-              <label for="goal">What are you hoping to get out of Ascend NYC?</label>
-              <textarea id="goal" name="goal" rows="4" maxlength="500" required></textarea>
-              <span class="field__error" data-error-for="goal"></span>
-              <span class="field__hint" id="goalCount">0 / 500</span>
-            </div>
-          </div>
-
-          <div class="form__submit">
-            <button type="submit" class="btn btn--primary btn--lg">Request Your Invite <span aria-hidden="true">→</span></button>
-            <p class="form__note">We review every application. You'll hear from us within 5 business days.</p>
-          </div>
-        </form>
-
-        <div class="form__success" id="formSuccess" hidden>
-          <div class="form__success-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-          </div>
-          <h3>Application received.</h3>
-          <p>We'll review it personally and be in touch within 5 business days. Welcome to the climb.</p>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- FOOTER -->
@@ -458,7 +420,7 @@
     <div class="container footer__inner">
       <div class="footer__brand">
         <a href="#top" class="wordmark wordmark--lg" aria-label="Ascend NYC home">
-          <img class="wordmark__logo" src="logo.png" alt="Ascend NYC" />
+          Ascend<span class="wordmark__tag">NYC</span>
         </a>
         <p class="footer__tag">Built for the builders.</p>
       </div>
@@ -484,74 +446,12 @@
     </div>
   </footer>
 
-  <!-- Auth Modal -->
-  <div class="auth-modal" id="authModal" hidden>
-    <div class="auth-modal__overlay" id="authModalOverlay"></div>
-    <div class="auth-modal__content">
-      <button class="auth-modal__close" id="authModalClose" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-
-      <div class="auth-modal__header">
-        <h2 class="auth-modal__title" id="authModalTitle">Welcome Back</h2>
-        <p class="auth-modal__subtitle" id="authModalSubtitle">Sign in to access member-only content</p>
-      </div>
-
-      <!-- Login Form -->
-      <form class="auth-form" id="loginForm">
-        <div class="field">
-          <label for="loginEmail">Email</label>
-          <input id="loginEmail" name="email" type="email" autocomplete="email" required />
-          <span class="field__error" data-error-for="loginEmail"></span>
-        </div>
-        <div class="field">
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" name="password" type="password" autocomplete="current-password" required />
-          <span class="field__error" data-error-for="loginPassword"></span>
-        </div>
-        <div class="auth-form__error" id="loginError" hidden></div>
-        <button type="submit" class="btn btn--primary btn--full">Sign In</button>
-      </form>
-
-      <!-- Signup Form (hidden by default) -->
-      <form class="auth-form" id="signupForm" hidden>
-        <div class="field">
-          <label for="signupEmail">Email</label>
-          <input id="signupEmail" name="email" type="email" autocomplete="email" required />
-          <span class="field__error" data-error-for="signupEmail"></span>
-        </div>
-        <div class="field">
-          <label for="signupPassword">Password</label>
-          <input id="signupPassword" name="password" type="password" autocomplete="new-password" required minlength="6" />
-          <span class="field__error" data-error-for="signupPassword"></span>
-        </div>
-        <div class="field">
-          <label for="signupPasswordConfirm">Confirm Password</label>
-          <input id="signupPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" required />
-          <span class="field__error" data-error-for="signupPasswordConfirm"></span>
-        </div>
-        <div class="auth-form__error" id="signupError" hidden></div>
-        <button type="submit" class="btn btn--primary btn--full">Create Account</button>
-      </form>
-
-      <!-- Toggle between login/signup -->
-      <div class="auth-modal__toggle">
-        <span id="authToggleText">Don't have an account?</span>
-        <button type="button" class="auth-modal__toggle-btn" id="authToggle">Sign Up</button>
-      </div>
-
-      <!-- Password Reset Link -->
-      <div class="auth-modal__forgot">
-        <button type="button" class="auth-modal__forgot-btn" id="forgotPasswordBtn">Forgot password?</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="main.js" defer></script>
+
+  <!-- Events: pulls Past + Upcoming from Sanity CMS (see SANITY_SETUP.md) -->
+  <script src="events.js" defer></script>
+
+  <!-- Tally embed (email capture popup) -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
