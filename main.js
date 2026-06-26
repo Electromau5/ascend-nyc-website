@@ -8,25 +8,27 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* =========================================================
-     beehiiv subscribe
+     Email capture → our own database
      ---------------------------------------------------------
      Both email forms (hero "Join the Community" and the
      "Request an Invite" form) send here. Submissions POST to a
-     serverless endpoint (api/subscribe.js) that forwards to
-     beehiiv — the beehiiv API key never lives in this file.
+     serverless endpoint (api/subscribe.js) that saves each
+     email into our own Postgres database. Nothing goes to a
+     third-party email service. View the list at /admin.
 
-     SETUP: once api/subscribe is deployed and its env vars are
-     set, flip BEEHIIV_ENABLED to true. Until then forms
-     validate and show their success state without sending, so
-     nothing looks broken in preview.
+     SETUP: this requires the Postgres store + env vars to be
+     configured in Vercel (see SANITY_SETUP.md / README). If you
+     need to demo the site before the database is wired up, set
+     SUBSCRIBE_ENABLED to false — forms then validate and show
+     their success state without saving.
      ========================================================= */
-  const BEEHIIV_ENABLED = false;            // ← set to true after deploying api/subscribe
+  const SUBSCRIBE_ENABLED = true;           // ← set false only to demo without a database
   const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
-  // Resolves on success, rejects on failure. In preview mode (disabled)
-  // it resolves immediately without sending.
+  // Resolves on success, rejects on failure. When disabled it
+  // resolves immediately without sending (demo/preview mode).
   async function subscribe(payload) {
-    if (!BEEHIIV_ENABLED) return;
+    if (!SUBSCRIBE_ENABLED) return;
     const res = await fetch(SUBSCRIBE_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -220,6 +222,69 @@
       heroIO.observe(heroSection);
     }
   }
+
+  /* ---------- Photo carousels (past-event cards) ---------- */
+  document.querySelectorAll('[data-carousel]').forEach((root) => {
+    const slides = Array.from(root.querySelectorAll('.carousel__slide'));
+    if (slides.length < 2) return;
+
+    const dotsWrap = root.querySelector('.carousel__dots');
+    const prevBtn = root.querySelector('.carousel__btn--prev');
+    const nextBtn = root.querySelector('.carousel__btn--next');
+    let index = slides.findIndex((s) => s.classList.contains('is-active'));
+    if (index < 0) index = 0;
+
+    // Build dot indicators
+    const dots = slides.map((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel__dot' + (i === index ? ' is-active' : '');
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', `Photo ${i + 1} of ${slides.length}`);
+      dot.addEventListener('click', () => go(i, true));
+      if (dotsWrap) dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    function go(next, fromUser) {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+      dots.forEach((d, i) => {
+        d.classList.toggle('is-active', i === index);
+        d.setAttribute('aria-selected', String(i === index));
+      });
+      if (fromUser) restart();
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => go(index - 1, true));
+    if (nextBtn) nextBtn.addEventListener('click', () => go(index + 1, true));
+
+    // Auto-advance, paused on hover/focus and when off-screen. Skips if user prefers reduced motion.
+    let timer = null;
+    const INTERVAL = 4500;
+    function start() {
+      if (prefersReducedMotion || timer) return;
+      timer = setInterval(() => go(index + 1, false), INTERVAL);
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+    function restart() { stop(); start(); }
+
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', start);
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => (e.isIntersecting ? start() : stop()));
+      }, { threshold: 0.4 });
+      io.observe(root);
+    } else {
+      start();
+    }
+  });
 
   /* ---------- "Request an Invite" form (email + company + industry) ---------- */
   const form = document.getElementById('inviteForm');

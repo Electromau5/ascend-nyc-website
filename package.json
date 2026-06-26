@@ -1,0 +1,9 @@
+{
+  "name": "ascend-nyc-website",
+  "private": true,
+  "type": "module",
+  "description": "Ascend NYC marketing site + email capture (Vercel serverless + Postgres).",
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0"
+  }
+}
