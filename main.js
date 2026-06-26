@@ -41,6 +41,12 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v).trim());
   }
 
+  // Fire a Google Analytics (GA4) event if gtag is loaded. No-op otherwise,
+  // so the site works identically with analytics blocked or disabled.
+  function trackEvent(name, params) {
+    if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+  }
+
   /* ---------- Year ---------- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -67,6 +73,7 @@
 
       try {
         await subscribe({ email, source: 'hero' });
+        trackEvent('sign_up', { method: 'hero_email' });
         joinForm.hidden = true;
         const proof = document.querySelector('.hero__join-proof');
         if (proof) proof.hidden = true;
@@ -367,6 +374,7 @@
 
       try {
         await subscribe(payload);
+        trackEvent('generate_lead', { method: 'invite_form', industry: payload.industry });
         showInviteSuccess();
       } catch (err) {
         console.warn('[Ascend waitlist]', err);
